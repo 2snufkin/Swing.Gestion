@@ -1,0 +1,1 @@
+I have transformed 2 Jlist into 1 Table now I can't get to add items to the table
