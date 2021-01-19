@@ -11,8 +11,8 @@ import java.sql.*;
 public class Datasource {
 
     public static final String DB_NAME = "Gestion.db";
-    private Connection conn;
-    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\database\\" + DB_NAME;
+    private static Connection conn;
+    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\database\\" + DB_NAME;&
 
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_USERS_ID = "_id";
@@ -58,14 +58,29 @@ public class Datasource {
     public static final String ADMIN = "Administrator";
     public static final String INT = "INTEGER NOT NULL";
     public static final String TEXT = "TEXT NOT NULL";
+    public static final String REAL = "REAL NOT NULL";
+
     public static final String UNIQUE = "UNIQUE";
 
     public static final String LIMIT = "Limit";
     //public static final String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME +" =?'" ;
-    private   String inputUser;
-    public     String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME + " = '" + inputUser + "';";
+    private   String user;
+    public     String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME + " = '";
 
-    public boolean open() {
+    public static final String QCreateUser = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + "(" + COLUMN_USERS_ID + " " + INT + ", " +
+            COLUMN_ITEMS_NAME + " " + TEXT + " " + UNIQUE + ", " + COLUMN_ITEMS_PRICE + " " + REAL + ", " + "PRIMARY KEY (" + COLUMN_ITEMS_ID + "));";
+
+public static final String QCreateItems= "CREATE TABLE IF NOT EXISTS " + TABLE_ITEMS + "(" + COLUMN_ITEMS_ID + " " + INT + ", " +
+            COLUMN_USERS_NAME + " " + TEXT + " " + UNIQUE + ", " + COLUMN_USERS_PASSWORD + " " + TEXT + ", " + COLUMN_USERS_ROLE + " " +
+            TEXT + ", " + "PRIMARY KEY (" + COLUMN_USERS_ID + "));";
+
+
+
+
+
+
+
+    private static boolean open() {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
             return true;
@@ -74,6 +89,12 @@ public class Datasource {
             return false;
         }
     }
+
+    public static Connection getInstance(){
+        if (conn == null) open();
+        return conn;
+    }
+
 
     public void close() {
         try {
@@ -86,13 +107,9 @@ public class Datasource {
     }
 
     public void CreateUsers() {
-        String stmCreate = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + "(" + COLUMN_USERS_ID + " " + INT + ", " +
-                COLUMN_USERS_NAME + " " + TEXT + " " + UNIQUE + ", " + COLUMN_USERS_PASSWORD + " " + TEXT + ", " + COLUMN_USERS_ROLE + " " +
-                TEXT + ", " + "PRIMARY KEY (" + COLUMN_USERS_ID + "));";
-        System.out.println(stmCreate);
-        try (Statement stm = conn.createStatement()) {
-            stm.executeUpdate(stmCreate);
-            System.out.println(stmCreate);
+
+         try (Statement stm = conn.createStatement()) {
+            stm.executeUpdate(QCreateUser);
 
         } catch (SQLException e) {
             System.out.println("problem with creating the users table");
@@ -112,26 +129,26 @@ public class Datasource {
         }
     }
 
-    public boolean deleteUser(String user) {
-        inputUser = user;
+    public void deleteUser(String user) {
+    StringBuilder query =new StringBuilder(QFINDUSER);
+    query.append(user);
+    query.append("'");
 
         try {
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(QFINDUSER);
-            if (rs.next()) {
-                stm.execute("delete from " + TABLE_USERS + " where user = '" + user + "'");
-                return true;
 
-            } else {
-                System.out.println("No such a user was found");
-                return false;
-            }
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query.toString());
+            System.out.println(query.toString());
+            while (rs.next()) {
+                if (rs.getString(INDEX_USERS_NAME) == "Ely" )
+                rs.deleteRow();
+               }
+
 
         } catch (Exception e) {
             System.out.println("The user name and password were not added " + e.getMessage());
             e.printStackTrace();
-            return false;
-        }
+         }
     }
 
 //    public void updateUser(String userName) throws SQLException {
@@ -168,7 +185,7 @@ public class Datasource {
             //data.CreateUsers();
             // data.add("adminf", "pifdgni",ADMIN);
             // data.add("Ely2", "piGFGFgni2",ADMIN);
-           // data.deleteUser("Ely2");
+            data.deleteUser("Ely");
              //data.updateUser("Ely");
         }
 
