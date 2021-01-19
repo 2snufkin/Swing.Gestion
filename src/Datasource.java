@@ -1,5 +1,6 @@
 
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +58,10 @@ public class Datasource {
     public static final String ADMIN = "Administrator";
     public static final String INT = "INTEGER NOT NULL";
     public static final String TEXT = "TEXT NOT NULL";
+    public static final String UNIQUE = "UNIQUE";
 
     public static final String LIMIT = "Limit";
-
+    public static final String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME +" = '" ;
 
 
 
@@ -89,36 +91,79 @@ public class Datasource {
 
     public void CreateUsers (){
         String stmCreate = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + "("+COLUMN_USERS_ID +" " +INT+ ", " +
-        COLUMN_USERS_NAME + " " + TEXT + ", " + COLUMN_USERS_PASSWORD + " " +TEXT + ", " + COLUMN_USERS_ROLE + " " +
+        COLUMN_USERS_NAME + " " + TEXT +" " + UNIQUE +  ", " + COLUMN_USERS_PASSWORD + " " +TEXT + ", " + COLUMN_USERS_ROLE + " " +
         TEXT + ", " +"PRIMARY KEY (" +COLUMN_USERS_ID + "));";
-       // System.out.println(stmCreate);
+       System.out.println(stmCreate);
         try(Statement stm = conn.createStatement()) {
-            stm.executeUpdate(stmCreate);
+           stm.executeUpdate(stmCreate);
+           System.out.println(stmCreate);
+
            }
         catch (SQLException e ){
-            System.out.println("probleme with creating the users table");
+            System.out.println("problem with creating the users table");
         }
 
 
     }
 
-    public void  add(String user, String pass,String role ){
-        String query = "Insert into " + TABLE_USERS + "VALUES( '" + user +"', '" + pass +"', '" + role +"' );";
-       // try( Statement stm = conn.createStatement();){
+    public void add(String user, String pass,String role ) {
+        String query = "Insert into " + TABLE_USERS + "(" + COLUMN_USERS_NAME + " ," + COLUMN_USERS_PASSWORD + " ," + COLUMN_USERS_ROLE + " )  VALUES( '" + user + "', '" + pass + "', '" + role + "' );";
+        try (Statement stm = conn.createStatement()) {
+            stm.executeUpdate(query);
 
-        System.out.println(query);
-             }
-//        catch(SQLException e){
-//            System.out.println("Problem with adding a user" + e.getMessage());
-//        }
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null,"Problem with adding a user" );
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean deleteUser(String user) {
+        try {
+            Statement stm = conn.createStatement();
+                       ResultSet rs = stm.executeQuery(QFINDUSER + user +"';");
+            if (rs.next()) {stm.execute("delete from " + TABLE_USERS + " where user = '" + user +"'");
+                return true;
+
+            }
+            else{
+                System.out.println("No such a user was found");
+                return false;
+            }
+
+
+
+        } catch (Exception e) {
+            System.out.println("The user name and password were not added " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+
+//    updateUser(String user, what to change)
+//
+//    select the user name
+//    ModifyUser userM =  new ModifyUser
+//    update the slected field - > set what = x
+//    public void changerUser(String name){
+//        PreparedStatement pstmt= conn.prepareStatement( QFINDUSER);
+//        pstmt.setInt(1, 6);
+//
+//
+//    }
 
 
 
     public static void main (String [] args){
         Datasource data = new Datasource();
-        data.open();
-     //  data.CreateUsers();
-       data.add("pini", "pini",ADMIN);
+       data.open();
+
+       data.CreateUsers();
+      // data.add("adminf", "pifdgni",ADMIN);
+       // data.add("Ely2", "piGFGFgni2",ADMIN);
+        data.deleteUser("Ely2");
       }
 
 }

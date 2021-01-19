@@ -1,5 +1,13 @@
-[DataBase]
+1. I manage to create a user table and insert data
 
+
+
+
+
+
+
+
+[DataBase]
 connect()
 close()
 
