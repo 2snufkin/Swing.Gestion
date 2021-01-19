@@ -1,0 +1,45 @@
+[DataBase]
+
+connect()
+close()
+
+My objects
+[User] |email | password | role
+
+
+
+[Commande] |id    | article  | quantity   |total
+
+GUI
+
+[Login]
+§a window that ask for user name and password  if admin it propose another option: Managing users/ commande
+§accese the DB on the user table and verify that the user and passwords are correct
+display the coloumn: role
+open a window depending on the role
+buttons: 1 login() 
+input: 2 (user, password)
+output: 1 (role)
+
+[Limited]
+a window that only display all the commands and let the user search by customer
+accese the DB on the commande table and display all
+buttons: 1 search() 
+input: 0
+output: 1 (all the table)
+
+[MangUsers]
+a window that let the admin add a user, delete, display all and get password
+accese the DB on the user table and display all
+§add()
+§delete()
+display()
+get pasword()
+
+[Commande]
+a window that create the commands. it is already exist
+accese the DB on the commande table and only add commands by the button "commit"
+
+
+[MangCommandes]
+a window similar like the [Limited]. display all the commends but let the admin also delete() 

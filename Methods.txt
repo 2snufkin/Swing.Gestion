@@ -1,0 +1,43 @@
+
+
+    public boolean insertUser(String user, String password) {
+        try {
+            stm = conn.createStatement();
+
+
+            stm.execute("INSERT INTO " + TABLE_USERS+ " values('" + user +"', '"+  password  + "')" );
+            stm.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("The user name and password were not added " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+    public boolean deleteUser(String user) {
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT * from " + TABLE_USERS + " where user = '" + user +"'");
+            if (rs.next()) {stm.execute("delete from " + TABLE_USERS + " where user = '" + user +"'");
+                return true;
+
+            }
+            else{
+                System.out.println("No such a user was found");
+                return false;
+            }
+
+
+
+        } catch (Exception e) {
+            System.out.println("The user name and password were not added " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+}
