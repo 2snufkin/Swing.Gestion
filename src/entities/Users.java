@@ -1,3 +1,5 @@
+package entities;
+
 public class Users {
 
     private int id;

@@ -1,9 +1,9 @@
+package connection;
 
+import entities.Users;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by timbuchalka on 9/12/16.
@@ -134,31 +134,31 @@ public class Datasource {
         }
     }
 
-    public void updateUser(String userName) throws SQLException {
-
-        try {
-            inputUser = userName;
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(QFINDUSER);
-            System.out.println(QFINDUSER);
-
-            if (rs.next()) {
-                Users updateUser = new Users();//CREATING AND FILLING THE OBJECT
-                updateUser.setId(rs.getInt(INDEX_USERS_ID));
-                updateUser.setUser(rs.getString(INDEX_USERS_NAME));
-                updateUser.setPassword(rs.getString(INDEX_USERS_PASSWORD));
-                updateUser.setRole(rs.getString(INDEX_USERS_ROLE));
-
-                ModifyUser userM = new ModifyUser(); //opening the window and feeling it
-                userM.setVisible(true);
-                userM.getUserMod().setText(updateUser.getUser());
-                userM.getPassMod().setText(updateUser.getPassword());
-                userM.getRolerModife().setText(updateUser.getRole());
-            }
-        } catch (SQLException e) {
-            System.out.println("problem in updating user");
-        }
-    }
+//    public void updateUser(String userName) throws SQLException {
+//
+//        try {
+//            inputUser = userName;
+//            Statement stm = conn.createStatement();
+//            ResultSet rs = stm.executeQuery(QFINDUSER);
+//            System.out.println(QFINDUSER);
+//
+//            if (rs.next()) {
+//                Users updateUser = new Users();//CREATING AND FILLING THE OBJECT
+//                updateUser.setId(rs.getInt(INDEX_USERS_ID));
+//                updateUser.setUser(rs.getString(INDEX_USERS_NAME));
+//                updateUser.setPassword(rs.getString(INDEX_USERS_PASSWORD));
+//                updateUser.setRole(rs.getString(INDEX_USERS_ROLE));
+//
+//                ModifyUser userM = new ModifyUser(); //opening the window and feeling it
+//                userM.setVisible(true);
+//                userM.getUserMod().setText(updateUser.getUser());
+//                userM.getPassMod().setText(updateUser.getPassword());
+//                userM.getRolerModife().setText(updateUser.getRole());
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("problem in updating user");
+//        }
+//    }
 
 
         public static void main (String[] args) throws SQLException {
@@ -169,7 +169,7 @@ public class Datasource {
             // data.add("adminf", "pifdgni",ADMIN);
             // data.add("Ely2", "piGFGFgni2",ADMIN);
            // data.deleteUser("Ely2");
-             data.updateUser("Ely");
+             //data.updateUser("Ely");
         }
 
     }

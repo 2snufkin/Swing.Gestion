@@ -1,3 +1,5 @@
+package entities;
+
 public class Details {
     private int id, idItem, quantity, idOrder;
 

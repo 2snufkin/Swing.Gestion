@@ -1,3 +1,5 @@
+package entities;
+
 import java.sql.Timestamp;
 
 public class Orders {
