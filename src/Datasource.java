@@ -54,6 +54,15 @@ public class Datasource {
     public static final int ORDER_BY_ASC = 2;
     public static final int ORDER_BY_DESC = 3;
 
+    public static final String ADMIN = "Administrator";
+    public static final String INT = "INTEGER NOT NULL";
+    public static final String TEXT = "TEXT NOT NULL";
+
+    public static final String LIMIT = "Limit";
+
+
+
+
 
 
     private Connection conn;
@@ -79,13 +88,13 @@ public class Datasource {
     }
 
     public void CreateUsers (){
-        String stmCreate = "CREATE TABLE " + TABLE_USERS + "("+COLUMN_USERS_ID +"INTEGER PRIMARY KEY," +
-                COLUMN_USERS_NAME + " text, "+ COLUMN_USERS_PASSWORD + " text, " + COLUMN_USERS_ROLE +
-                " text)";
+        String stmCreate = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + "("+COLUMN_USERS_ID +" " +INT+ ", " +
+        COLUMN_USERS_NAME + " " + TEXT + ", " + COLUMN_USERS_PASSWORD + " " +TEXT + ", " + COLUMN_USERS_ROLE + " " +
+        TEXT + ", " +"PRIMARY KEY (" +COLUMN_USERS_ID + "));";
+       // System.out.println(stmCreate);
         try(Statement stm = conn.createStatement()) {
             stm.executeUpdate(stmCreate);
-            System.out.println(stmCreate);
-        }
+           }
         catch (SQLException e ){
             System.out.println("probleme with creating the users table");
         }
@@ -93,13 +102,24 @@ public class Datasource {
 
     }
 
+    public void  add(String user, String pass,String role ){
+        String query = "Insert into " + TABLE_USERS + "VALUES( '" + user +"', '" + pass +"', '" + role +"' );";
+       // try( Statement stm = conn.createStatement();){
+
+        System.out.println(query);
+             }
+//        catch(SQLException e){
+//            System.out.println("Problem with adding a user" + e.getMessage());
+//        }
+
+
+
     public static void main (String [] args){
         Datasource data = new Datasource();
         data.open();
-        data.CreateUsers();
-
-
-    }
+     //  data.CreateUsers();
+       data.add("pini", "pini",ADMIN);
+      }
 
 }
 

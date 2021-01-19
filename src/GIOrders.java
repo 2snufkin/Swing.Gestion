@@ -306,6 +306,7 @@ public class GIOrders extends javax.swing.JFrame {
      * @param evt
      */
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
         String quantity = verifyQuantity(nombreInput.getText());
         passOrderTable.getModel();
 
@@ -319,6 +320,7 @@ public class GIOrders extends javax.swing.JFrame {
         String totalAf = String.valueOf(sum);
         totalLabel.setText(totalAf);
     }
+
 
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {

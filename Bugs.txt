@@ -1,1 +1,2 @@
-I have transformed 2 Jlist into 1 Table now I can't get to add items to the table
+1.I have transformed 2 Jlist into 1 Table now I can't get to add items to the table
+2.adding to the table doesn't work cause I need to ass an ID. but it should be autoincrement
