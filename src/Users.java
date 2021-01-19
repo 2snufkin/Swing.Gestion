@@ -3,7 +3,7 @@ public class Users {
     private int id;
     private String password;
     private String user;
-    private String access;
+    private String role;
 
     public int getId() {
         return id;
@@ -29,11 +29,11 @@ public class Users {
         this.user = user;
     }
 
-    public String getAccess() {
-        return access;
+    public String getRole() {
+        return role;
     }
 
-    public void setAccess(String access) {
-        this.access = access;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

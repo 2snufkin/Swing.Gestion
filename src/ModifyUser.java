@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import javax.swing.*;
+
 /**
  *
  * @author Home
@@ -166,5 +168,31 @@ public class ModifyUser extends javax.swing.JFrame {
     private javax.swing.JTextField passMod;
     private javax.swing.JTextField rolerModife;
     private javax.swing.JButton saveButn;
-    // End of variables declaration                   
+
+    public JTextField getUserMod() {
+        return UserMod;
+    }
+
+    public void setUserMod(JTextField userMod) {
+        UserMod = userMod;
+
+    }
+
+    public JTextField getPassMod() {
+        return passMod;
+    }
+
+    public void setPassMod(JTextField passMod) {
+        this.passMod = passMod;
+    }
+
+    public JTextField getRolerModife() {
+        return rolerModife;
+    }
+
+    public void setRolerModife(JTextField rolerModife) {
+        this.rolerModife = rolerModife;
+    }
+
+    // End of variables declaration
 }

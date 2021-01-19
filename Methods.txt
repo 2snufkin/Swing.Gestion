@@ -2,6 +2,7 @@ updateUser(String user, what to change)
 
 select the user name
 ModifyUser userM =  new ModifyUser
+pass it to the Panel
 update the slected field - > set what = x
 
 
