@@ -22,15 +22,22 @@ public class UserDAO implements IuserDAO {
     static Connection conn;
 
     //My requets
-    //find user by name
+    //find user by name or bu ID
     public static final String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME + " = ?;";
     public static final String QFINDUSERBYID = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_ID + " = '";
 
-    //insert the user
+    //insert the user - add()
     public static final String QINSERT = "Insert into " + TABLE_USERS + "(" + COLUMN_USERS_NAME + " ," +
             COLUMN_USERS_PASSWORD + " ," + COLUMN_USERS_ROLE + " )  VALUES(   ?  ,   ?  ,   ?  );";
-
+    // select everything - afficher()
     public static final String QSELELCTALL = "SELECT * from " + TABLE_USERS + ";";
+
+    //Delete user
+    public static final String QDELETE = "DELETE * from " + TABLE_USERS + " WHERE " + COLUMN_USERS_ID +" = " ;
+
+
+
+
     private PreparedStatement PSfinduser;
     private PreparedStatement PSinsertuser;
 
@@ -152,9 +159,47 @@ public class UserDAO implements IuserDAO {
     }
 
     @Override
-    public void deleteUser(Users user) throws SQLException {
+    public void deleteUser(Users user)   {
+        JOptionPane.showMessageDialog(null, "Are you sure you want to delete " + user.getName() + "?");
+        StringBuilder sb = new StringBuilder(QDELETE);
+        sb.append(user.getId());
+        sb.append(";");
+        System.out.println(sb);
+
+        try {
+
+             Statement stm = conn.createStatement();
+             int sucd = stm.executeUpdate(sb.toString()) ;
+
+            if (sucd == 1) JOptionPane.showMessageDialog(null, "The user has been deleted");
+            else JOptionPane.showMessageDialog(null, "The user has not been deleted");
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "There's a bug on you!", "SQL", JOptionPane.ERROR_MESSAGE);
+        }
+
 
     }
+
+//    public void deleteUser(int a)   {
+//        JOptionPane.showMessageDialog(null, "Are you sure you want to delete " + user.getName() + "?");
+//        StringBuilder sb = new StringBuilder(QDELETE);
+//        sb.append(user.getId());
+//        sb.append(";");
+//        System.out.println(sb);
+//
+//        try {
+//
+//            Statement stm = conn.createStatement();
+//            int sucd = stm.executeUpdate(sb.toString()) ;
+//
+//            if (sucd == 1) JOptionPane.showMessageDialog(null, "The user has been deleted");
+//            else JOptionPane.showMessageDialog(null, "The user has not been deleted");
+//        }catch(SQLException e){
+//            JOptionPane.showMessageDialog(null, "There's a bug on you!", "SQL", JOptionPane.ERROR_MESSAGE);
+//        }
+//
+//
+//    }
 
 
 
@@ -168,15 +213,18 @@ public class UserDAO implements IuserDAO {
 //            System.out.println(x.getPassword());
 //
 //        user.getUserByID(3) ;
-        Users user2 = new Users("Gali", "MAMAI", "Admin");
-        start.addUser(user2);
+        Users user2 = new Users("Maygfgi", "beaugoss", "Admin");
+        int idadduder = start.addUser(user2);
+        System.out.println(idadduder);
         start.afficherUsers();
         Vector<Users> myvector = start.afficherUsers();
         for (Users i: myvector){
-            System.out.println(i);
-            //System.out.println(i.toString());
+            System.out.println(i.getName()+  "," +  i.getRole());
+
         }
+       // start.deleteUser(user2);
     }
+
 
 
 }

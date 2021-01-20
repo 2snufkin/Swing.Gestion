@@ -1,10 +1,12 @@
-1.I have transformed 2 Jlist into 1 Table now I can't get to add items to the table
-2.adding to the table doesn't work cause I need to ass an ID. but it should be autoincrement
+1.Enumeration
+
+2. for delete(User user) Bon pratique:
+ 1. serch user by ID/Name  (si la methode trouve pas= - > user hasnt been found)  2. delete user
+ 1. delete direct
+
 3.
+      if (rs.next()) {
+          rs.deleteRow(); // ca efface pas. mais si - AU LIEU -  je fais:
 
-//            if (rs.next()) {
-//                rs.deleteRow(); // ca efface pas. mais si - AU LIEU -  je fais:
-
-//               stm.executeUpdate("delete from " + TABLE_USERS + " where user = '" + user + "'"); // ca marche
-//
-4. toString() Probleme
+         stm.executeUpdate("delete from " + TABLE_USERS + " where user = '" + user + "'"); // ca marche
+            }
