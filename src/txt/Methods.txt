@@ -5,4 +5,14 @@ ModifyUser userM =  new ModifyUser
 pass it to the Panel
 update the slected field - > set what = x
 
+afficher()
+SELECT everything
+RESULTSET it
+RUN the ResultSet
+WHILE running the resultSet
+CREATE a vector
+CREATE a new User
+FILL the vector with <users>
+RETURN the vector
+
 

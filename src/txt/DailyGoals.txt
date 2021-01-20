@@ -4,4 +4,7 @@ To create the methods:
 //delete user
 update user
 
-public static void main (String [] args){
+20.01
+I created the users methods:
+add
+search by ID
