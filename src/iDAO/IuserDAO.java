@@ -9,7 +9,7 @@ public interface IuserDAO {
 
         void modifyUser(Users user ) throws SQLException;
      void deleteUser(Users user ) throws SQLException;
-     void addUser(Users user ) throws SQLException;
+     int addUser(Users user ) throws SQLException;
      void afficherUsers(Users user ) throws SQLException;
 
 }

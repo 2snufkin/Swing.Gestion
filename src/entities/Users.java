@@ -3,9 +3,20 @@ package entities;
 public class Users {
 
     private int id;
-    private String password;
+
     private String name;
+    private String password;
     private String role;
+
+    public Users(){
+
+    }
+
+    public Users(String name, String password, String role) {
+        this.name = name;
+        this.password = password;
+        this.role = role;
+    }
 
     public int getId() {
         return id;
