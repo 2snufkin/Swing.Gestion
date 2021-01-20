@@ -1,12 +1,1 @@
-1.Enumeration
-
-2. for delete(User user) Bon pratique:
- 1. serch user by ID/Name  (si la methode trouve pas= - > user hasnt been found)  2. delete user
- 1. delete direct
-
-3.
-      if (rs.next()) {
-          rs.deleteRow(); // ca efface pas. mais si - AU LIEU -  je fais:
-
-         stm.executeUpdate("delete from " + TABLE_USERS + " where user = '" + user + "'"); // ca marche
-            }
+return ID is always zero I understand why but not how to get over

@@ -98,7 +98,7 @@ public class UserDAO implements IuserDAO {
      * @return
      */
     @Override
-    public int addUser(Users user) {
+    public void addUser(Users user) {
         try {
             PSfinduser.setString(1, user.getName());
             ResultSet rs = PSfinduser.executeQuery();
@@ -107,7 +107,6 @@ public class UserDAO implements IuserDAO {
             System.out.println(PSinsertuser.toString());
             if (rs.next()) {
                 JOptionPane.showMessageDialog(null, "The user is already exists");
-                return rs.getInt(1);
             } else {
                 //if not. add the user. 1: prepaere the query
                 PSinsertuser.setString(1, user.getName());
@@ -123,8 +122,7 @@ public class UserDAO implements IuserDAO {
             System.out.println("The user name and password were not added " + e.getMessage());
             e.printStackTrace();
         }
-        return user.getId();
-    }
+     }
     /**
      * a method that parcour the user Table and return a vector that include inside all the users
      * @return Vector<Users>
@@ -160,7 +158,15 @@ public class UserDAO implements IuserDAO {
 
     @Override
     public void deleteUser(Users user)   {
-        JOptionPane.showMessageDialog(null, "Are you sure you want to delete " + user.getName() + "?");
+        //Verifying that the Admin is sure
+        int n = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete " + user.getName() + " ?",
+                "Delete",
+                JOptionPane.YES_NO_OPTION);// no -> 1 yes -> 0
+        if (n==1) System.exit(1);
+
+        //building the Query
         StringBuilder sb = new StringBuilder(QDELETE);
         sb.append(user.getId());
         sb.append(";");
@@ -176,7 +182,7 @@ public class UserDAO implements IuserDAO {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "There's a bug on you!", "SQL", JOptionPane.ERROR_MESSAGE);
         }
-
+        System.out.println(n);
 
     }
 
@@ -213,13 +219,32 @@ public class UserDAO implements IuserDAO {
 //            System.out.println(x.getPassword());
 //
 //        user.getUserByID(3) ;
-        Users user2 = new Users("Maygfgi", "beaugoss", "Admin");
-        int idadduder = start.addUser(user2);
-        System.out.println(idadduder);
-        start.afficherUsers();
+        Users user1 = new Users("Avi", "beaugoss", "1");
+        Users user2 = new Users("Pini", "Hkjklldf", "0");
+        Users user3 = new Users("Oren", "1221545", "1");
+        Users user4 = new Users("Itzahk", "545fgf45", "0");
+        Users user5 = new Users("Yakov", "gf54545", "1");
+        Users user6 = new Users("Benyamin", "5454gfg5", "0");
+        Users user7 = new Users("Asher", "5sdsq4545", "1");
+        Users user8 = new Users("Levi", "54545gfg", "0");
+/*            start.addUser(user2);
+            start.addUser(user1);
+            start.addUser(user3);
+           start.addUser(user4);
+          start.addUser(user5);
+           start.addUser(user7);
+           start.addUser(user6);
+          start.addUser(user8);
+*/
+         // start.deleteUser(user2);
+        int x = user2.getId();
+        System.out.println(x);
+
+
+         start.afficherUsers();
         Vector<Users> myvector = start.afficherUsers();
         for (Users i: myvector){
-            System.out.println(i.getName()+  "," +  i.getRole());
+            System.out.println(i.getName()+  "," +  i.getRole() + " " +String.valueOf(i.getId()));
 
         }
        // start.deleteUser(user2);
