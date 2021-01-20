@@ -1,0 +1,7 @@
+19.01.21
+To create the methods:
+//add user
+//delete user
+update user
+
+public static void main (String [] args){
