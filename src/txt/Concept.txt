@@ -1,5 +1,8 @@
 1. I manage to create a user table and insert data
-
+for the modify i want to change the fields inside the table an not in the pop up window
+bTable.getSelectedRow()
+setValueAt
+You could use TableModel#setValueAt, but you would also become responsible for updating the table, which breaks the MCV model.
 
 
 

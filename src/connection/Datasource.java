@@ -12,7 +12,8 @@ public class Datasource {
 
     public static final String DB_NAME = "Gestion.db";
     private static Connection conn;
-    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\database\\" + DB_NAME;&
+    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\database\\" + DB_NAME;
+
 
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_USERS_ID = "_id";

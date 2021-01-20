@@ -3,10 +3,8 @@ import connection.Datasource;
 import entities.Users;
 import iDAO.IuserDAO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 import java.util.Vector;
 
 public class UserDAO implements IuserDAO {
@@ -24,17 +22,92 @@ public class UserDAO implements IuserDAO {
     static Connection conn ;
 
     //My requets
-    public  static final   String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME + " = '" + u.getUser() + "';";
+    //find user by name
+    public  static final   String QFINDUSER = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_NAME + " = ?;";
+    public  static final   String QFINDUSERBYID = "SELECT * from " + TABLE_USERS + " where " + COLUMN_USERS_ID + " = '";
+
+    //insert the user
     public static final String QINSERT = "Insert into " + TABLE_USERS + "(" + COLUMN_USERS_NAME + " ," +
-            COLUMN_USERS_PASSWORD + " ," + COLUMN_USERS_ROLE + " )  VALUES( '" +  u.getUser() + "', '" + u.getPassword() +
-            "', '" + u.getRole() + "' );";
+            COLUMN_USERS_PASSWORD + " ," + COLUMN_USERS_ROLE + " )  VALUES( ' ? ', ' ? ', ' ? ');";
     public static final String QSELELCTALL = "SELECT * from " + TABLE_USERS + ",";
+    private PreparedStatement PSfinduser;
+    private PreparedStatement PSinsertuser;
 
     //Creating an instance of the connection;
 
 
     public UserDAO() {
-     conn = Datasource.getInstance();
+        try{
+            conn = Datasource.getInstance();
+            PSfinduser = conn.prepareStatement(QFINDUSER);
+            PSinsertuser = conn.prepareStatement(QINSERT);
+
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Problem with the Connection instance or the Prepare Statment");
+        }
+    }
+//
+//    @Override
+//    public void modifyUser(Users user) throws SQLException {
+//
+//    }
+//
+//    @Override
+//    public int deleteUser(Users user) {
+//        try{
+//            PSfinduser.setString(1, user.getName());
+//            ResultSet rs = PSfinduser.executeQuery();
+//            //if it exist. give me his _id
+//            if (rs.next()) { return rs.getInt(1);}
+//            else {
+//                //if not. add the user. 1: prepaere the query
+//                PSinsertuser.setString(1, user.getName());
+//                PSinsertuser.setString(2, user.getPassword());
+//                PSinsertuser.setString(3, user.getRole());
+//                //excute and verify that it has been done
+//                int affectedRow = PSinsertuser.executeUpdate();
+//                if (affectedRow != 1)
+//                    throw new SQLException("A user hasn't been added");
+//                ResultSet generatedKey = PSinsertuser.getGeneratedKeys();
+//                if (generatedKey != null) return  generatedKey;
+//                else new SQLException("Couldn't get the ID");
+//
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("The user name and password were not added " + e.getMessage());
+//            e.printStackTrace();
+//
+//
+//        }
+//
+//    }
+
+    public Users getUserByID(int id ) {
+        Users u = new Users();
+        StringBuilder stb = new StringBuilder(QFINDUSERBYID);
+        stb.append(id);
+        stb.append("';");
+        try {
+
+
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(stb.toString());
+            if (rs.next()) {
+                u.setName(rs.getString(COLUMN_USERS_NAME));
+                u.setPassword(rs.getString(COLUMN_USERS_PASSWORD));
+                u.setRole(rs.getString(COLUMN_USERS_ROLE));
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "This ID hasn't been found");
+            }
+
+        } catch (SQLException e) {
+
+
+        }
+        return u;
     }
 
     @Override
@@ -42,59 +115,13 @@ public class UserDAO implements IuserDAO {
 
     }
 
-    public boolean deleteUser(Users user) {
-
-        try {
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(QFINDUSER);
-            if (rs.next()) {
-                stm.execute("delete from " + TABLE_USERS + " where user = '" + user + "'");
-                return true;
-
-            } else {
-                System.out.println("No such a user was found");
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.out.println("The user name and password were not added " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
     @Override
-    public boolean deleteUser(Users user) throws SQLException {
-        try {
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(QFINDUSER);
-            if (rs.next()) {
-                rs.deleteRow();
-               // stm.executeUpdate("delete from " + TABLE_USERS + " where user = '" + user + "'");
-                return true;
-
-            } else {
-                System.out.println("No such a user was found");
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.out.println("The user name and password were not added " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-
+    public void deleteUser(Users user) throws SQLException {
 
     }
 
     @Override
-    public void addUser(Users user)   {
-       try {
-           stm = conn.createStatement();
-           stm.executeUpdate(QINSERT);
-       }
-       catch (SQLException e){
-           System.out.println("problem with using the user");
-       }
+    public void addUser(Users user) throws SQLException {
 
     }
 
@@ -106,7 +133,7 @@ public class UserDAO implements IuserDAO {
         while (res.next()){
             Users userObj = new Users();
             userObj.setId(res.getInt(INDEX_USERS_ID));
-            userObj.setUser(res.getString(INDEX_USERS_NAME));
+            userObj.setName(res.getString(INDEX_USERS_NAME));
             userObj.setPassword(res.getString(INDEX_USERS_PASSWORD));
             userObj.setRole(res.getString(INDEX_USERS_ROLE));
             usersVector.add(userObj);
@@ -114,4 +141,24 @@ public class UserDAO implements IuserDAO {
         }
 
     }
-}
+
+
+        public  static void main(String [] args){
+
+        UserDAO user = new UserDAO();
+
+        Users x = user.getUserByID(2);
+            System.out.println(x.getName());
+            System.out.println(x.getPassword());
+
+        user.getUserByID(3) ;
+
+
+
+        }
+
+
+ }
+
+
+

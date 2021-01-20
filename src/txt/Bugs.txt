@@ -1,2 +1,23 @@
 1.I have transformed 2 Jlist into 1 Table now I can't get to add items to the table
 2.adding to the table doesn't work cause I need to ass an ID. but it should be autoincrement
+3.
+//    public boolean deleteUser(Users user) throws SQLException {
+//        try {
+//            Statement stm = conn.createStatement();
+//            ResultSet rs = stm.executeQuery(QFINDUSER);
+//            if (rs.next()) {
+//                rs.deleteRow(); // ca efface pas. mais si je fais:
+
+//               stm.executeUpdate("delete from " + TABLE_USERS + " where user = '" + user + "'");
+//                return true;
+//
+//            } else {
+//                System.out.println("No such a user was found");
+//                return false;
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("The user name and password were not added " + e.getMessage());
+//            e.printStackTrace();
+//            return false;
+//        }
