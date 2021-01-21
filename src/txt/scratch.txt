@@ -1,3 +1,8 @@
 Mercredi
 
 add a method getByID
+
+Jeudi
+I have finish testing my CRUD methods in the:
+ userDAO
+ OrderDAO
