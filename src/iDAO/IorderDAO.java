@@ -1,8 +1,12 @@
 package iDAO;
+// only display
+import entities.Orders;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
-public interface IorderDAO {
+public interface IorderDAO  {
 
-   boolean add() throws SQLException;
-}
+   Vector<Orders> displayOrders() throws  SQLException;
+
+ }

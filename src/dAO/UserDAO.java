@@ -33,7 +33,7 @@ public class UserDAO implements IuserDAO {
     public static final String QSELELCTALL = "SELECT * from " + TABLE_USERS + ";";
 
     //Delete user
-    public static final String QDELETE = "DELETE * from " + TABLE_USERS + " WHERE " + COLUMN_USERS_ID +" = " ;
+    public static final String QDELETE = "DELETE FROM " + TABLE_USERS + " WHERE " + COLUMN_USERS_NAME +" = " ;
 
 
 
@@ -48,15 +48,33 @@ public class UserDAO implements IuserDAO {
      * it has inside a mrthod to create an instance() of the connection and it holds the prepared Statments
      */
     public UserDAO() {
-        try {
+
             conn = Datasource.getInstance();
-            PSfinduser = conn.prepareStatement(QFINDUSER);
-            PSinsertuser = conn.prepareStatement(QINSERT);
+
+        try{
+
+           PSfinduser = conn.prepareStatement(QFINDUSER);
+           PSinsertuser = conn.prepareStatement(QINSERT);
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problem with the Connection instance or the Prepare Statment");
+            JOptionPane.showMessageDialog(null, "Problem with the Prepared Statement");
         }
-    }
+  }
+
+    public void close(){
+        try{
+            if (conn != null)
+            conn.close();
+            if (PSinsertuser != null)
+                PSinsertuser.close();
+            if (PSfinduser!= null)
+                PSfinduser.close();
+
+
+        }catch (SQLException e){
+            System.out.println("probleme with closing the connection");
+        }
+     }
 
     /**
      * This method search the users table for a user with the @id if it founds - it returns it
@@ -67,11 +85,11 @@ public class UserDAO implements IuserDAO {
      */
     public Users getUserByID(int id) {
         Users u = new Users();
-        StringBuilder stb = new StringBuilder(QFINDUSERBYID);
-        stb.append(id);
-        stb.append("';");
-        try {
 
+        StringBuilder stb = new StringBuilder(QFINDUSERBYID);
+        stb.append(id + "';");
+
+        try {
 
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(stb.toString());
@@ -98,7 +116,7 @@ public class UserDAO implements IuserDAO {
      * @return
      */
     @Override
-    public int addUser(Users user) {
+    public void addUser(Users user) {
         try {
             PSfinduser.setString(1, user.getName());
             ResultSet rs = PSfinduser.executeQuery();
@@ -107,7 +125,6 @@ public class UserDAO implements IuserDAO {
             System.out.println(PSinsertuser.toString());
             if (rs.next()) {
                 JOptionPane.showMessageDialog(null, "The user is already exists");
-                return rs.getInt(1);
             } else {
                 //if not. add the user. 1: prepaere the query
                 PSinsertuser.setString(1, user.getName());
@@ -123,8 +140,7 @@ public class UserDAO implements IuserDAO {
             System.out.println("The user name and password were not added " + e.getMessage());
             e.printStackTrace();
         }
-        return user.getId();
-    }
+      }
     /**
      * a method that parcour the user Table and return a vector that include inside all the users
      * @return Vector<Users>
@@ -158,13 +174,24 @@ public class UserDAO implements IuserDAO {
 
     }
 
+    /**
+     * This method delete a given user if he is found in the DB
+     * @param user
+     */
     @Override
     public void deleteUser(Users user)   {
-        JOptionPane.showMessageDialog(null, "Are you sure you want to delete " + user.getName() + "?");
+       // Verifying that the Admin is sure
+        int n = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete " + user.getName() + " ?",
+                "Delete",
+                JOptionPane.YES_NO_OPTION);// no -> 1 yes -> 0
+        if (n==1) System.exit(1);
+
+        //building the Query
         StringBuilder sb = new StringBuilder(QDELETE);
-        sb.append(user.getId());
-        sb.append(";");
-        System.out.println(sb);
+        sb.append( "'" +user.getName() + "';");
+                System.out.println(sb);
 
         try {
 
@@ -172,35 +199,13 @@ public class UserDAO implements IuserDAO {
              int sucd = stm.executeUpdate(sb.toString()) ;
 
             if (sucd == 1) JOptionPane.showMessageDialog(null, "The user has been deleted");
-            else JOptionPane.showMessageDialog(null, "The user has not been deleted");
+            else JOptionPane.showMessageDialog(null, "The user has not been found");
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "There's a bug on you!", "SQL", JOptionPane.ERROR_MESSAGE);
-        }
+         }
 
 
     }
-
-//    public void deleteUser(int a)   {
-//        JOptionPane.showMessageDialog(null, "Are you sure you want to delete " + user.getName() + "?");
-//        StringBuilder sb = new StringBuilder(QDELETE);
-//        sb.append(user.getId());
-//        sb.append(";");
-//        System.out.println(sb);
-//
-//        try {
-//
-//            Statement stm = conn.createStatement();
-//            int sucd = stm.executeUpdate(sb.toString()) ;
-//
-//            if (sucd == 1) JOptionPane.showMessageDialog(null, "The user has been deleted");
-//            else JOptionPane.showMessageDialog(null, "The user has not been deleted");
-//        }catch(SQLException e){
-//            JOptionPane.showMessageDialog(null, "There's a bug on you!", "SQL", JOptionPane.ERROR_MESSAGE);
-//        }
-//
-//
-//    }
-
 
 
 
@@ -208,21 +213,38 @@ public class UserDAO implements IuserDAO {
 
         UserDAO start = new UserDAO();
 
+
 //        Users x = user.getUserByID(2);
 //            System.out.println(x.getName());
 //            System.out.println(x.getPassword());
 //
 //        user.getUserByID(3) ;
-        Users user2 = new Users("Maygfgi", "beaugoss", "Admin");
-        int idadduder = start.addUser(user2);
-        System.out.println(idadduder);
-        start.afficherUsers();
+        Users user1 = new Users("Avi", "beaugoss", "1");
+        Users user2 = new Users("Pini", "Hkjklldf", "0");
+        Users user3 = new Users("Oren", "1221545", "1");
+        Users user4 = new Users("Itzahk", "545fgf45", "0");
+        Users user5 = new Users("Yakov", "gf54545", "1");
+        Users user6 = new Users("Benyamin", "5454gfg5", "0");
+        Users user7 = new Users("Asher", "5sdsq4545", "1");
+        Users user8 = new Users("Levi", "54545gfg", "0");
+  //       start.addUser(user2);
+//           start.addUser(user1);
+//            start.addUser(user3);
+//           start.addUser(user4);
+//          start.addUser(user5);
+//           start.addUser(user7);
+//           start.addUser(user6);
+//          start.addUser(user8);
+
+      start.deleteUser(user2);
+
+         start.afficherUsers();
         Vector<Users> myvector = start.afficherUsers();
         for (Users i: myvector){
-            System.out.println(i.getName()+  "," +  i.getRole());
+            System.out.println(i.getName()+  "," +  i.getRole() + " " +String.valueOf(i.getId()));
 
         }
-       // start.deleteUser(user2);
+
     }
 
 

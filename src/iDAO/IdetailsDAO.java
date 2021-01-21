@@ -1,17 +1,15 @@
 package iDAO;
 
-import entities.Items;
+import entities.Orders;
+import entities.Users;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
 public interface IdetailsDAO {
-
-    public boolean addItem(Items items) throws SQLException;
-
-    public boolean deleteItem(Items item)throws SQLException;
-
-    public boolean modifyItem(Items item)throws SQLException;
+    void addDetil() throws SQLException;
+    void deleteDetails() throws SQLException;
 
 
-    }
+}
 
