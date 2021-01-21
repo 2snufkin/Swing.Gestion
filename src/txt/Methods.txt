@@ -15,4 +15,19 @@ CREATE a new User
 FILL the vector with <users>
 RETURN the vector
 
+Transactions
+1.Turn off auto commit : conn.setAutoCommit(false);
+2. if everything is ok. conn.commit();
+3.Error : conn.rollback();
+1.Turn ON auto commit : conn.setAutoCommit(true);
+
+Modifer(User X)
+1. Create a temp user
+2. fill it with the new att
+3. add the temp user . calling add user method. if a user like this exist - > error
+4. if not exist  delete User x - > calling the delete method
+
+
+
+
 

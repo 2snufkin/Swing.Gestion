@@ -8,9 +8,11 @@ import java.util.Vector;
 
 public interface IuserDAO {
 
-     void modifyUser(Users user ) throws SQLException;
-     void deleteUser(Users user ) throws SQLException;
-     void addUser(Users user ) throws SQLException;
-     Vector<Users> afficherUsers() throws SQLException;
+     void modifyUser(Users user) throws SQLException;
 
+     void deleteUser(Users user) throws SQLException;
+
+     void addUser(Users user) throws SQLException;
+
+     Vector<Users> afficherUsers() throws SQLException;
 }

@@ -1,10 +1,4 @@
-19.01.21
-To create the methods:
-//add user
-//delete user
-update user
 
-20.01
-I created the users methods:
-add
-search by ID
+
+
+

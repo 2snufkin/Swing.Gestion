@@ -11,7 +11,7 @@ public interface IitemsDAO {
     void addItem(Items item)  throws SQLException;
     void deleteItem(Items item)  throws SQLException;
     void modifyItem(Items item)  throws SQLException;
-    void displayItems(Items item)  throws SQLException;
+    Vector <Items> displayItems(Items item)  throws SQLException;
 
 
 
