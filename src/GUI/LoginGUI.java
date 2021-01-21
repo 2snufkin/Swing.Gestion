@@ -151,26 +151,28 @@ public class LoginGUI extends javax.swing.JFrame {
                 pst.setString(1, username);
                 pst.setString(2, password);
                 rs = pst.executeQuery();
-                while (rs.next()) {
-                role = rs.getInt(4);
+                if (rs.next()) {
+                    role = rs.getInt(4);
                     System.out.println(role);
-                }
-                if (role == 1) {
-                    AdminActionsGUI adminW = new AdminActionsGUI();
-                    adminW.setVisible(true);
-                    adminW.pack();
-                    adminW.setLocationRelativeTo(null);
-                    adminW.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    this.dispose();//close the current window
-                } else {
-                    UserActionsGUI userW = new UserActionsGUI();
-                    userW.setVisible(true);
-                    userW.pack();
-                    userW.setLocationRelativeTo(null);
-                    userW.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    this.dispose();//close the current window
 
-                }
+                    if (role == 1) {
+                        AdminActionsGUI adminW = new AdminActionsGUI();
+                        adminW.setVisible(true);
+                        adminW.pack();
+                        adminW.setLocationRelativeTo(null);
+                        adminW.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        this.dispose();//close the current window
+                    } else {
+                        UserActionsGUI userW = new UserActionsGUI();
+                        userW.setVisible(true);
+                        userW.pack();
+                        userW.setLocationRelativeTo(null);
+                        userW.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        this.dispose();//close the current window
+
+                    }
+                } else
+                    JOptionPane.showMessageDialog(this, "User dosent exist");
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "oh oh ");
                 System.out.println(role);
