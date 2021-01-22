@@ -214,9 +214,11 @@ public class UserDAO implements IuserDAO {
              ResultSet res = stm.executeQuery(QSELELCTALL)) {
 
 
+
             while (res.next()) {
 
                 Users userObj = new Users();
+                userObj.setId(res.getInt(INDEX_USERS_ID));
                 userObj.setName(res.getString(INDEX_USERS_NAME));
                 userObj.setPassword(res.getString(INDEX_USERS_PASSWORD));
                 userObj.setRole(res.getString(INDEX_USERS_ROLE));
@@ -298,11 +300,11 @@ public class UserDAO implements IuserDAO {
 
 
 
-  /*  Vector<Users> myvector = start.afficherUsers();
+ Vector<Users> myvector = start.afficherUsers();
      for (Users i : myvector) {
         System.out.println(i.getName() + "," + i.getRole() + " " + String.valueOf(i.getId()));
 
-       }*/
+       }
 
 
     }

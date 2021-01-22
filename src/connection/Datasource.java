@@ -23,15 +23,7 @@ public class Datasource {
     public static final int INDEX_ORDERS_PRICE = 2;
     public static final int INDEX_ORDERS_DATE = 3;
 
-    public static final String TABLE_DETAILS = "details";
-    public static final String COLUMN_DETAILS_ID = "_id";
-    public static final String COLUMN_DETAILS_ID_ITEM = "_idItem";
-    public static final String COLUMN_DETAILS_QUANTITY = "quantity";
-    public static final String COLUMN_DETAILS_ID_COMMANDE = "_idCommande";
-    public static final int INDEX_DETAILS_ID = 1;
-    public static final int INDEX_DETAILS_NAME = 2;
-    public static final int INDEX_DETAILS_PASSWORD = 3;
-    public static final int INDEX_DETAILS_ROLE = 4;
+
 
     public static final int ORDER_BY_NONE = 1;
     public static final int ORDER_BY_ASC = 2;
