@@ -1,0 +1,82 @@
+ public static final String TABLE_USERS = "users";
+    public static final String COLUMN_USERS_ID = "_id";
+    public static final String COLUMN_USERS_NAME = "user";
+    public static final String COLUMN_USERS_PASSWORD = "password";
+    public static final String COLUMN_USERS_ROLE = "role";
+    public static final int INDEX_USERS_ID = 1;
+    public static final int INDEX_USERS_NAME = 2;
+    public static final int INDEX_USERS_PASSWORD = 3;
+    public static final int INDEX_USERS_ROLE = 4;
+
+    public static final String TABLE_ITEMS = "items";
+    public static final String COLUMN_ITEMS_ID = "_id";
+    public static final String COLUMN_ITEMS_NAME = "name";
+    public static final String COLUMN_ITEMS_PRICE = "price";
+    public static final int INDEX_ITEMS_ID = 1;
+    public static final int INDEX_ITEMS_NAME = 2;
+    public static final int INDEX_ITEMS_PRICE = 3;
+
+    public static final String TABLE_ORDERS = "orders";
+    public static final String COLUMN_ORDERS_ID = "_id";
+    public static final String COLUMN_ORDERS_PRICE = "price";
+    public static final String COLUMN_ORDERS_DATE = "date";
+
+    public static final int INDEX_ORDERS_ID = 1;
+    public static final int INDEX_ORDERS_PRICE = 2;
+    public static final int INDEX_ORDERS_DATE = 3;
+
+    public static final String TABLE_DETAILS = "details";
+    public static final String COLUMN_DETAILS_ID = "_id";
+    public static final String COLUMN_DETAILS_ID_ITEM = "_idItem";
+    public static final String COLUMN_DETAILS_QUANTITY = "quantity";
+    public static final String COLUMN_DETAILS_ID_ORDER = "_idOrder";
+    public static final int INDEX_DETAILS_ID = 1;
+    public static final int INDEX_DETAILS_NAME = 2;
+    public static final int INDEX_DETAILS_PASSWORD = 3;
+    public static final int INDEX_DETAILS_ROLE = 4;
+
+    public static final int ORDER_BY_NONE = 1;
+    public static final int ORDER_BY_ASC = 2;
+    public static final int ORDER_BY_DESC = 3;
+
+    public static final String ADMIN = "Administrator";
+    public static final String INT = "INTEGER NOT NULL";
+    public static final String TEXT = "TEXT NOT NULL";
+    public static final String REAL = "REAL NOT NULL";
+    public static final String UNIQUE = "UNIQUE";
+    public static final String LIMIT = "Limit";
+
+
+    //Create Tables:
+    //Create User
+    public static final String QCreateUser = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + "(" + COLUMN_USERS_ID + " " + INT + ", " +
+            COLUMN_USERS_NAME + " " + TEXT + " " + UNIQUE + ", " + COLUMN_USERS_PASSWORD + " " + TEXT + ", " + COLUMN_USERS_ROLE  + ", " +
+             "PRIMARY KEY (" + COLUMN_USERS_ID + "));";
+    //Create item
+    public static final String QCreateItems= "CREATE TABLE IF NOT EXISTS " + TABLE_ITEMS + "(" + COLUMN_ITEMS_ID + " " + INT + ", " +
+            COLUMN_ITEMS_NAME + " " + TEXT + " " + UNIQUE + ", " + COLUMN_ITEMS_PRICE + " " + REAL + ", " +
+            "PRIMARY KEY (" + COLUMN_ITEMS_ID + "));";
+    //Create Details
+    public static final String QCREATEDETAILS= "CREATE TABLE IF NOT EXISTS " +TABLE_DETAILS + "(" + COLUMN_DETAILS_ID + " " + INT + ", " +
+            COLUMN_DETAILS_ID_ITEM + " " + INT + " " +  ", " + COLUMN_DETAILS_QUANTITY + " " + INT + ", " + COLUMN_DETAILS_ID_ORDER +
+              " " + INT + ", PRIMARY KEY (" + COLUMN_ITEMS_ID + "), FOREIGN KEY (" + COLUMN_DETAILS_ID_ITEM+") REFERENCES "+ TABLE_ITEMS +
+            "("+COLUMN_ITEMS_ID + ") ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (" + COLUMN_DETAILS_ID_ORDER +") REFERENCES "+
+            TABLE_ORDERS + "("+COLUMN_ORDERS_ID + ") ON DELETE NO ACTION ON UPDATE NO ACTION);";
+    //Create Orders
+    public static final String QCreateORDER= "CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS + "(" + COLUMN_ORDERS_ID + " " + INT + ", " +
+            COLUMN_ORDERS_PRICE + " " + REAL + ", " + COLUMN_ORDERS_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
+            "PRIMARY KEY (" + COLUMN_ITEMS_ID + "));";
+
+
+             public void createTable(String query) {
+                    System.out.println(query);
+
+                     try (Statement stm = conn.createStatement()) {
+                        stm.executeUpdate(query);
+
+                    } catch (SQLException e) {
+                        System.out.println("problem with creating the "+ query + "table");
+                    }
+
+
+                }

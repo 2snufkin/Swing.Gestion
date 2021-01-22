@@ -1,0 +1,48 @@
+
+    DefaultTableModel defaultTableModel;//creating object of DefaultTableModel
+    JTable table;//Creating object of JTable
+
+ 
+
+
+ 
+        //Setting the properties of JTable and DefaultTableModel
+        defaultTableModel = new DefaultTableModel();
+        table = new JTable(defaultTableModel);
+        table.setPreferredScrollableViewportSize(new Dimension(300, 100));
+        table.setFillsViewportHeight(true);
+        frame2.add(new JScrollPane(table));
+        defaultTableModel.addColumn("Username");
+        defaultTableModel.addColumn("Roll No");
+        defaultTableModel.addColumn("Department");
+ 
+ 
+ 
+ 
+        try {
+         
+
+ 
+
+             
+
+                    defaultTableModel.addRow(new Object[]{name, roll, dept});//Adding row in Table
+                    frame2.setVisible(true);//Setting the visibility of second Frame
+                    frame2.validate();
+                    break;
+                }
+ 
+            }
+ 
+            if (flag == 0) {
+                JOptionPane.showMessageDialog(null, "No Such Username Found");//When invalid username is entered
+            }
+ 
+ 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+ 
+ 
+    }
+}
